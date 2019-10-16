@@ -59,22 +59,45 @@ class DaoWriter extends Writer {
             "_queryAdapter = QueryAdapter(database${requiresChangeListener ? ', changeListener' : ''})"));
 
       final queryMapperFields = queryMethods
-          .map((method) => method.entity)
-          .where((entity) => entity != null)
-          .toSet()
-          .map((entity) {
-        final constructor = entity.constructor;
-        final name = '_${decapitalize(entity.name)}Mapper';
+                                          .map((method) => method.entity)
+                                          .where((entity) => entity != null)
+                                          .toSet()
+                                          .map((entity) {
+                                        final constructor = entity.constructor;
+                                        final name = '_${decapitalize(entity.name)}Mapper';
 
-        return Field((builder) => builder
-          ..name = name
-          ..modifier = FieldModifier.final$
-          ..static = true
-          ..assignment = Code('(Map<String, dynamic> row) => $constructor'));
-      });
+                                        return Field((builder) => builder
+                                          ..name = name
+                                          ..modifier = FieldModifier.final$ // make signature final
+                                          ..static = true // make signature static
+                                          ..assignment = Code('(Map<String, dynamic> row) => $constructor')); // obs. he include constructor here
+                                      });
 
       classBuilder.fields.addAll(queryMapperFields);
     }
+
+
+
+
+    // try to add toJson
+    // if (queryMethods.isNotEmpty) {
+    //   classBuilder.methods.addAll(
+    //     queryMethods
+    //                 .map((method) => method.entity)
+    //                 .where((entity) => entity != null)
+    //                 .toSet()
+    //                 .map((entity) {
+    //                   final methodBuilder = MethodBuilder()
+    //                     ..name = 'toJson'
+    //                     ..lambda = true
+    //                     ..returns = Reference('Map<String, dynamic>')
+    //                     ..body = Code( entity.toJson );
+    //                   return methodBuilder.build();
+    //             })
+
+    //   );
+    // }
+
 
     final insertionMethods = dao.insertionMethods;
     if (insertionMethods.isNotEmpty) {
@@ -159,7 +182,7 @@ class DaoWriter extends Writer {
               "$fieldName = DeletionAdapter(database, '${entity.name}', ${entity.primaryKey.fields.map((field) => '\'${field.columnName}\'').toList()}, $valueMapper${requiresChangeListener ? ', changeListener' : ''})"));
       }
     }
-
+    // agregate all here:
     classBuilder
       ..constructors.add(constructorBuilder.build())
       ..methods.addAll(_generateQueryMethods(queryMethods))

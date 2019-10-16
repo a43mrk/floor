@@ -22,11 +22,11 @@ class InsertionAdapter<T> {
         _valueMapper = valueMapper,
         _changeListener = changeListener;
 
-  Future<void> insert(
+  Future<int> insert(
     final T item,
     final ConflictAlgorithm conflictAlgorithm,
   ) async {
-    await _insert(item, conflictAlgorithm);
+    return await _insert(item, conflictAlgorithm);
   }
 
   Future<void> insertList(

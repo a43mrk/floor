@@ -15,6 +15,7 @@ class Entity {
   final List<ForeignKey> foreignKeys;
   final List<Index> indices;
   final String constructor;
+  final String toJson;
 
   Entity(
     this.classElement,
@@ -24,6 +25,7 @@ class Entity {
     this.foreignKeys,
     this.indices,
     this.constructor,
+    this.toJson,
   );
 
   @nonNull

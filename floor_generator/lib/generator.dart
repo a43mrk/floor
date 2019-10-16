@@ -17,10 +17,10 @@ import 'package:source_gen/source_gen.dart';
 class FloorGenerator extends GeneratorForAnnotation<annotations.Database> {
   @override
   FutureOr<String> generateForAnnotatedElement(
-    final Element element,
-    final ConstantReader annotation,
-    final BuildStep buildStep,
-  ) {
+                                                  final Element element,
+                                                  final ConstantReader annotation,
+                                                  final BuildStep buildStep,
+                                                ) {
     final database = _getDatabase(element);
     if (database == null) return null;
     final daoGetters = database.daoGetters;

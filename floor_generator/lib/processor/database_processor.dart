@@ -48,9 +48,9 @@ class DatabaseProcessor extends Processor<Database> {
 
   @nonNull
   List<DaoGetter> _getDaoGetters(
-    final String databaseName,
-    final List<Entity> entities,
-  ) {
+                                    final String databaseName,
+                                    final List<Entity> entities,
+                                  ) {
     return _classElement.fields.where(_isDao).map((field) {
       final classElement = field.type.element as ClassElement;
       final name = field.displayName;
@@ -87,8 +87,8 @@ class DatabaseProcessor extends Processor<Database> {
         ?.toListValue()
         ?.map((object) => object.toTypeValue().element)
         ?.whereType<ClassElement>()
-        ?.where(_isEntity)
-        ?.map((classElement) => EntityProcessor(classElement).process())
+        ?.where(_isEntity) // filter by element that is == annotations.Entity
+        ?.map((classElement) => EntityProcessor(classElement).process()) // them call all process from all entity element type
         ?.toList();
 
     if (entities == null || entities.isEmpty) {

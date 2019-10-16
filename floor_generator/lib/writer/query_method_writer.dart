@@ -134,9 +134,9 @@ class QueryMethodWriter implements Writer {
 
   @nonNull
   String _generateStreamQuery(
-    @nullable final String arguments,
-    @nonNull final String mapper,
-  ) {
+                                @nullable final String arguments,
+                                @nonNull final String mapper,
+                              ) {
     final entityName = _queryMethod.entity.name;
 
     final parameters = StringBuffer()..write("'${_queryMethod.query}', ");

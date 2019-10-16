@@ -39,7 +39,8 @@ class EntityProcessor extends Processor<Entity> {
       _getPrimaryKey(fields),
       _getForeignKeys(),
       _getIndices(fields, name),
-      _getConstructor(fields),
+      _getConstructor(fields),  // include the constructor here.
+      _getToJson(fields),
     );
   }
 
@@ -234,9 +235,33 @@ class EntityProcessor extends Processor<Entity> {
     final constructorParameters = _classElement.constructors.first.parameters;
 
     final parameterValues = <String>[];
-
+    // TODO: change to factory method
     for (var i = 0; i < constructorParameters.length; i++) {
-      final parameterValue = "row['${columnNames[i]}']";
+      final parameterValue = "${columnNames[i]}: row['${columnNames[i]}']";
+      final constructorParameter = constructorParameters[i];
+      final castedParameterValue =
+          _castParameterValue(constructorParameter.type, parameterValue); // reproduce a list of casting parameters
+
+      if (castedParameterValue == null) {
+        throw _processorError.parameterTypeNotSupported(constructorParameter);
+      }
+
+      parameterValues.add(castedParameterValue);
+    }
+
+    return '${_classElement.displayName}(${parameterValues.join(', ')})';
+  }
+
+
+  @nonNull
+  String _getToJson(final List<Field> fields) {
+    final columnNames = fields.map((field) => field.columnName).toList();
+    final constructorParameters = _classElement.constructors.first.parameters;
+
+    final parameterValues = <String>[];
+    // TODO: change to factory method
+    for (var i = 0; i < constructorParameters.length; i++) {
+      final parameterValue = "\'${columnNames[i]}\': ${columnNames[i]}";
       final constructorParameter = constructorParameters[i];
       final castedParameterValue =
           _castParameterValue(constructorParameter.type, parameterValue);
@@ -248,7 +273,8 @@ class EntityProcessor extends Processor<Entity> {
       parameterValues.add(castedParameterValue);
     }
 
-    return '${_classElement.displayName}(${parameterValues.join(', ')})';
+    // return 'Map<String, dynamic> toJson() => \{ ${parameterValues.join(', ')} \};'; // signature
+    return ' \{ ${parameterValues.join(', ')} \}'; // signature
   }
 
   @nullable

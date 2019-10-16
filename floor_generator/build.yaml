@@ -8,6 +8,7 @@ builders:
   floor_generator:
     import: "package:floor_generator/builder.dart"
     # The builder function name, which gets called on build/watch
+    # register your builder here
     builder_factories: ["floorBuilder"]
     # The 'partId' argument to 'SharedPartBuilder' is 'floor'
     build_extensions: {".dart": [".floor.g.part"]}

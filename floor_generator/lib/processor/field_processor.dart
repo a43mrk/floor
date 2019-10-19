@@ -68,10 +68,16 @@ class FieldProcessor extends Processor<Field> {
       return SqlType.INTEGER;
     } else if (isDouble(type)) {
       return SqlType.REAL;
+      // TODO: make this work
+    } else if(isParameterizedList(type)) {
+      return SqlType.BLOB;
+    } else if(isList(type)) {
+      return SqlType.BLOB;
+    } else {
+      throw InvalidGenerationSourceError(
+        'Column type is not supported for $type.',
+        element: _fieldElement,
+      );
     }
-    throw InvalidGenerationSourceError(
-      'Column type is not supported for $type.',
-      element: _fieldElement,
-    );
   }
 }

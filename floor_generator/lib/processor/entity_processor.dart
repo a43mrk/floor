@@ -40,7 +40,7 @@ class EntityProcessor extends Processor<Entity> {
       _getForeignKeys(),
       _getIndices(fields, name),
       _getConstructor(fields),  // include the constructor here.
-      _getToJson(fields),
+      // _getToJson(fields),
     );
   }
 
@@ -239,14 +239,16 @@ class EntityProcessor extends Processor<Entity> {
     for (var i = 0; i < constructorParameters.length; i++) {
       final parameterValue = "${columnNames[i]}: row['${columnNames[i]}']";
       final constructorParameter = constructorParameters[i];
-      final castedParameterValue =
-          _castParameterValue(constructorParameter.type, parameterValue); // reproduce a list of casting parameters
+      // TODO: uncomment when you need to generate casting
+      // final castedParameterValue =
+      //     _castParameterValue(constructorParameter.type, parameterValue); // reproduce a list of casting parameters
 
-      if (castedParameterValue == null) {
-        throw _processorError.parameterTypeNotSupported(constructorParameter);
-      }
+      // if (castedParameterValue == null) {
+      //   throw _processorError.parameterTypeNotSupported(constructorParameter);
+      // }
 
-      parameterValues.add(castedParameterValue);
+      // parameterValues.add(castedParameterValue);
+      parameterValues.add(parameterValue);
     }
 
     return '${_classElement.displayName}(${parameterValues.join(', ')})';
@@ -283,13 +285,17 @@ class EntityProcessor extends Processor<Entity> {
     final String parameterValue,
   ) {
     if (isBool(parameterType)) {
-      return '($parameterValue as int) != 0'; // maps int to bool
+      // return '($parameterValue as int) != 0'; // maps int to bool
+      return '$parameterValue != 0'; // maps int to bool
     } else if (isString(parameterType)) {
       return '$parameterValue as String';
     } else if (isInt(parameterType)) {
       return '$parameterValue as int';
     } else if (isDouble(parameterType)) {
       return '$parameterValue as double';
+      // here is where you declare new types from constructor to be supported
+    } else if (isParameterizedList(parameterType)) {
+      return '$parameterValue as List';
     } else {
       return null;
     }

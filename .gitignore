@@ -1,6 +1,6 @@
 # Exclude generated Dart files
 *.g.dart
-
+*.jenkins
 # Miscellaneous
 *.class
 *.lock

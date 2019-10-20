@@ -2,6 +2,7 @@
 *.g.dart
 
 # Miscellaneous
+*.jenkins
 *.class
 *.lock
 *.log

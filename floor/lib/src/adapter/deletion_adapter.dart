@@ -11,22 +11,22 @@ class DeletionAdapter<T> {
   final StreamController<String> _changeListener;
 
   DeletionAdapter(
-    final DatabaseExecutor database,
-    final String entityName,
-    final List<String> primaryKeyColumnName,
-    final Map<String, dynamic> Function(T) valueMapper, [
-    final StreamController<String> changeListener,
-  ])  : assert(database != null),
-        assert(entityName != null),
-        assert(entityName.isNotEmpty),
-        assert(primaryKeyColumnName != null),
-        assert(primaryKeyColumnName.isNotEmpty),
-        assert(valueMapper != null),
-        _database = database,
-        _entityName = entityName,
-        _primaryKeyColumnNames = primaryKeyColumnName,
-        _valueMapper = valueMapper,
-        _changeListener = changeListener;
+                    final DatabaseExecutor database,
+                    final String entityName,
+                    final List<String> primaryKeyColumnName,
+                    final Map<String, dynamic> Function(T) valueMapper, [
+                    final StreamController<String> changeListener,
+                  ])  : assert(database != null),
+                        assert(entityName != null),
+                        assert(entityName.isNotEmpty),
+                        assert(primaryKeyColumnName != null),
+                        assert(primaryKeyColumnName.isNotEmpty),
+                        assert(valueMapper != null),
+                        _database = database,
+                        _entityName = entityName,
+                        _primaryKeyColumnNames = primaryKeyColumnName,
+                        _valueMapper = valueMapper,
+                        _changeListener = changeListener;
 
   Future<void> delete(final T item) async {
     await _delete(item);

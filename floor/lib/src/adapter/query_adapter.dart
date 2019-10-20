@@ -17,10 +17,10 @@ class QueryAdapter {
 
   /// Executes a SQLite query that may return a single value.
   Future<T> query<T>(
-    final String sql, {
-    final List<dynamic> arguments,
-    @required final T Function(Map<String, dynamic>) mapper,
-  }) async {
+                      final String sql, {
+                      final List<dynamic> arguments,
+                      @required final T Function(Map<String, dynamic>) mapper,
+                    }) async {
     final rows = await _database.rawQuery(sql, arguments);
 
     if (rows.isEmpty) {
@@ -34,18 +34,18 @@ class QueryAdapter {
 
   /// Executes a SQLite query that may return multiple values.
   Future<List<T>> queryList<T>(
-    final String sql, {
-    final List<dynamic> arguments,
-    @required final T Function(Map<String, dynamic>) mapper,
-  }) async {
+                                final String sql, {
+                                final List<dynamic> arguments,
+                                @required final T Function(Map<String, dynamic>) mapper,
+                              }) async {
     final rows = await _database.rawQuery(sql, arguments);
     return rows.map((row) => mapper(row)).toList();
   }
 
   Future<void> queryNoReturn(
-    final String sql, {
-    final List<dynamic> arguments,
-  }) async {
+                              final String sql, {
+                              final List<dynamic> arguments,
+                            }) async {
     // TODO differentiate between different query kinds (select, update, delete, insert)
     //  this enables to notify the observers
     //  also requires extracting the table name :(
@@ -54,11 +54,11 @@ class QueryAdapter {
 
   /// Executes a SQLite query that returns a stream of single query results.
   Stream<T> queryStream<T>(
-    final String sql, {
-    final List<dynamic> arguments,
-    @required final String tableName,
-    @required final T Function(Map<String, dynamic>) mapper,
-  }) {
+                            final String sql, {
+                            final List<dynamic> arguments,
+                            @required final String tableName,
+                            @required final T Function(Map<String, dynamic>) mapper,
+                          }) {
     assert(_changeListener != null);
 
     final controller = StreamController<T>.broadcast();
@@ -84,11 +84,11 @@ class QueryAdapter {
 
   /// Executes a SQLite query that returns a stream of multiple query results.
   Stream<List<T>> queryListStream<T>(
-    final String sql, {
-    final List<dynamic> arguments,
-    @required final String tableName,
-    @required final T Function(Map<String, dynamic>) mapper,
-  }) {
+                                      final String sql, {
+                                      final List<dynamic> arguments,
+                                      @required final String tableName,
+                                      @required final T Function(Map<String, dynamic>) mapper,
+                                    }) {
     assert(_changeListener != null);
 
     final controller = StreamController<List<T>>.broadcast();

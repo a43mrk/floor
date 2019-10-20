@@ -9,53 +9,53 @@ class InsertionAdapter<T> {
   final StreamController<String> _changeListener;
 
   InsertionAdapter(
-    final DatabaseExecutor database,
-    final String entityName,
-    final Map<String, dynamic> Function(T) valueMapper, [
-    final StreamController<String> changeListener,
-  ])  : assert(database != null),
-        assert(entityName != null),
-        assert(entityName.isNotEmpty),
-        assert(valueMapper != null),
-        _database = database,
-        _entityName = entityName,
-        _valueMapper = valueMapper,
-        _changeListener = changeListener;
+                    final DatabaseExecutor database,
+                    final String entityName,
+                    final Map<String, dynamic> Function(T) valueMapper,
+                    [ final StreamController<String> changeListener, ]):
+                        assert(database != null),
+                        assert(entityName != null),
+                        assert(entityName.isNotEmpty),
+                        assert(valueMapper != null),
+                        _database = database,
+                        _entityName = entityName,
+                        _valueMapper = valueMapper,
+                        _changeListener = changeListener;
 
   Future<int> insert(
-    final T item,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) async {
+                      final T item,
+                      final ConflictAlgorithm conflictAlgorithm,
+                    ) async {
     return await _insert(item, conflictAlgorithm);
   }
 
   Future<void> insertList(
-    final List<T> items,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) async {
+                            final List<T> items,
+                            final ConflictAlgorithm conflictAlgorithm,
+                          ) async {
     if (items.isEmpty) return;
     await _insertList(items, conflictAlgorithm);
   }
 
   Future<int> insertAndReturnId(
-    final T item,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) {
+                                  final T item,
+                                  final ConflictAlgorithm conflictAlgorithm,
+                                ) {
     return _insert(item, conflictAlgorithm);
   }
 
   Future<List<int>> insertListAndReturnIds(
-    final List<T> items,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) async {
+                                            final List<T> items,
+                                            final ConflictAlgorithm conflictAlgorithm,
+                                          ) async {
     if (items.isEmpty) return [];
     return _insertList(items, conflictAlgorithm);
   }
 
   Future<int> _insert(
-    final T item,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) async {
+                        final T item,
+                        final ConflictAlgorithm conflictAlgorithm,
+                      ) async {
     final result = await _database.insert(
       _entityName,
       _valueMapper(item),
@@ -68,9 +68,9 @@ class InsertionAdapter<T> {
   }
 
   Future<List<int>> _insertList(
-    final List<T> items,
-    final ConflictAlgorithm conflictAlgorithm,
-  ) async {
+                                  final List<T> items,
+                                  final ConflictAlgorithm conflictAlgorithm,
+                                ) async {
     final batch = _database.batch();
     for (final item in items) {
       batch.insert(

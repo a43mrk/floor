@@ -236,19 +236,29 @@ class EntityProcessor extends Processor<Entity> {
 
     final parameterValues = <String>[];
     // TODO: change to factory method
-    for (var i = 0; i < constructorParameters.length; i++) {
-      final parameterValue = "${columnNames[i]}: row['${columnNames[i]}']";
-      final constructorParameter = constructorParameters[i];
+    // for (var i = 0; i < constructorParameters.length; i++) {
+      // for(var columnName in columnNames){
+      for(var columnName in constructorParameters){
+      // final parameterValue = "${columnNames[i]}: row['${columnNames[i]}']";
+      final parameterValue = "${columnName.displayName}: row['${columnName.displayName}']";
+      // final constructorParameter = constructorParameters[i];
+      // final constructorParameter = _classElement.constructors.first.parameters.firstWhere((test){
+      //   return test.displayName == columnName;
+      // });
+    
       // TODO: uncomment when you need to generate casting
+      final castedParameterValue =
+          _castParameterValue(columnName.type, parameterValue); // reproduce a list of casting parameters
       // final castedParameterValue =
       //     _castParameterValue(constructorParameter.type, parameterValue); // reproduce a list of casting parameters
 
-      // if (castedParameterValue == null) {
-      //   throw _processorError.parameterTypeNotSupported(constructorParameter);
-      // }
+      if (castedParameterValue == null) {
+        throw _processorError.parameterTypeNotSupported(columnName);
+        // throw _processorError.parameterTypeNotSupported(constructorParameter);
+      }
 
-      // parameterValues.add(castedParameterValue);
-      parameterValues.add(parameterValue);
+      parameterValues.add(castedParameterValue);
+      // parameterValues.add(parameterValue);
     }
 
     return '${_classElement.displayName}(${parameterValues.join(', ')})';
@@ -295,7 +305,7 @@ class EntityProcessor extends Processor<Entity> {
       return '$parameterValue as double';
       // here is where you declare new types from constructor to be supported
     } else if (isParameterizedList(parameterType)) {
-      return '$parameterValue as List';
+      return '$parameterValue as List<dynamic>';
     } else {
       return null;
     }

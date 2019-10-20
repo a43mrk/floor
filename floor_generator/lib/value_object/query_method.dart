@@ -31,19 +31,19 @@ class QueryMethod {
   final Entity entity;
 
   QueryMethod(
-    this.methodElement,
-    this.name,
-    this.query,
-    this.rawReturnType,
-    this.flattenedReturnType,
-    this.parameters,
-    this.entity,
-  );
+                this.methodElement,
+                this.name,
+                this.query,
+                this.rawReturnType,
+                this.flattenedReturnType,
+                this.parameters,
+                this.entity,
+              );
 
   bool get returnsList {
     final type = returnsStream
-        ? flattenStream(rawReturnType)
-        : methodElement.context.typeSystem.flatten(rawReturnType);
+                              ? flattenStream(rawReturnType)
+                              : methodElement.context.typeSystem.flatten(rawReturnType);
 
     return isList(type);
   }
@@ -54,27 +54,27 @@ class QueryMethod {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is QueryMethod &&
-          runtimeType == other.runtimeType &&
-          methodElement == other.methodElement &&
-          name == other.name &&
-          query == other.query &&
-          rawReturnType == other.rawReturnType &&
-          flattenedReturnType == other.flattenedReturnType &&
-          const ListEquality<ParameterElement>()
-              .equals(parameters, other.parameters) &&
-          entity == other.entity;
+                                  identical(this, other) ||
+                                  other is QueryMethod &&
+                                  runtimeType == other.runtimeType &&
+                                  methodElement == other.methodElement &&
+                                  name == other.name &&
+                                  query == other.query &&
+                                  rawReturnType == other.rawReturnType &&
+                                  flattenedReturnType == other.flattenedReturnType &&
+                                  const ListEquality<ParameterElement>()
+                                      .equals(parameters, other.parameters) &&
+                                  entity == other.entity;
 
   @override
   int get hashCode =>
-      methodElement.hashCode ^
-      name.hashCode ^
-      query.hashCode ^
-      rawReturnType.hashCode ^
-      flattenedReturnType.hashCode ^
-      parameters.hashCode ^
-      entity.hashCode;
+                    methodElement.hashCode ^
+                    name.hashCode ^
+                    query.hashCode ^
+                    rawReturnType.hashCode ^
+                    flattenedReturnType.hashCode ^
+                    parameters.hashCode ^
+                    entity.hashCode;
 
   @override
   String toString() {

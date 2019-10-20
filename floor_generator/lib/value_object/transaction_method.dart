@@ -10,34 +10,34 @@ class TransactionMethod {
   final String databaseName;
 
   TransactionMethod(
-    this.methodElement,
-    this.name,
-    this.returnType,
-    this.parameterElements,
-    this.daoFieldName,
-    this.databaseName,
-  );
+                    this.methodElement,
+                    this.name,
+                    this.returnType,
+                    this.parameterElements,
+                    this.daoFieldName,
+                    this.databaseName,
+                  );
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TransactionMethod &&
-          runtimeType == other.runtimeType &&
-          methodElement == other.methodElement &&
-          name == other.name &&
-          returnType == other.returnType &&
-          parameterElements == other.parameterElements &&
-          daoFieldName == other.daoFieldName &&
-          databaseName == other.databaseName;
+                                    identical(this, other) ||
+                                    other is TransactionMethod &&
+                                    runtimeType == other.runtimeType &&
+                                    methodElement == other.methodElement &&
+                                    name == other.name &&
+                                    returnType == other.returnType &&
+                                    parameterElements == other.parameterElements &&
+                                    daoFieldName == other.daoFieldName &&
+                                    databaseName == other.databaseName;
 
   @override
   int get hashCode =>
-      methodElement.hashCode ^
-      name.hashCode ^
-      returnType.hashCode ^
-      parameterElements.hashCode ^
-      daoFieldName.hashCode ^
-      databaseName.hashCode;
+                      methodElement.hashCode ^
+                      name.hashCode ^
+                      returnType.hashCode ^
+                      parameterElements.hashCode ^
+                      daoFieldName.hashCode ^
+                      databaseName.hashCode;
 
   @override
   String toString() {

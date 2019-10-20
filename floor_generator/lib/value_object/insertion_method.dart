@@ -7,29 +7,29 @@ class InsertionMethod extends ChangeMethod {
   final String onConflict;
 
   InsertionMethod(
-    final MethodElement methodElement,
-    final String name,
-    final DartType returnType,
-    final DartType flattenedReturnType,
-    final ParameterElement parameterElement,
-    final Entity entity,
-    this.onConflict,
-  ) : super(
-          methodElement,
-          name,
-          returnType,
-          flattenedReturnType,
-          parameterElement,
-          entity,
-        );
+                  final MethodElement methodElement,
+                  final String name,
+                  final DartType returnType,
+                  final DartType flattenedReturnType,
+                  final ParameterElement parameterElement,
+                  final Entity entity,
+                  this.onConflict,
+                ) : super(
+                        methodElement,
+                        name,
+                        returnType,
+                        flattenedReturnType,
+                        parameterElement,
+                        entity,
+                      );
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      super == other &&
-          other is InsertionMethod &&
-          runtimeType == other.runtimeType &&
-          onConflict == other.onConflict;
+                                    identical(this, other) ||
+                                    super == other &&
+                                    other is InsertionMethod &&
+                                    runtimeType == other.runtimeType &&
+                                    onConflict == other.onConflict;
 
   @override
   int get hashCode => super.hashCode ^ onConflict.hashCode;

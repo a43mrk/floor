@@ -10,12 +10,12 @@ class Field {
   final String sqlType;
 
   Field(
-    this.fieldElement,
-    this.name,
-    this.columnName,
-    this.isNullable,
-    this.sqlType,
-  );
+          this.fieldElement,
+          this.name,
+          this.columnName,
+          this.isNullable,
+          this.sqlType,
+        );
 
   /// The database column definition.
   @nonNull
@@ -34,22 +34,22 @@ class Field {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Field &&
-          runtimeType == other.runtimeType &&
-          fieldElement == other.fieldElement &&
-          name == other.name &&
-          columnName == other.columnName &&
-          isNullable == other.isNullable &&
-          sqlType == other.sqlType;
+                                    identical(this, other) ||
+                                    other is Field &&
+                                    runtimeType == other.runtimeType &&
+                                    fieldElement == other.fieldElement &&
+                                    name == other.name &&
+                                    columnName == other.columnName &&
+                                    isNullable == other.isNullable &&
+                                    sqlType == other.sqlType;
 
   @override
   int get hashCode =>
-      fieldElement.hashCode ^
-      name.hashCode ^
-      columnName.hashCode ^
-      isNullable.hashCode ^
-      sqlType.hashCode;
+                      fieldElement.hashCode ^
+                      name.hashCode ^
+                      columnName.hashCode ^
+                      isNullable.hashCode ^
+                      sqlType.hashCode;
 
   @override
   String toString() {

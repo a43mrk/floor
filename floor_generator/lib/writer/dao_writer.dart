@@ -235,7 +235,8 @@ class DaoWriter extends Writer {
         .toList();
   }
 
-  List<Method> _generateQueryMethods(final List<QueryMethod> queryMethods) {
+  List<Method> _generateQueryMethods(final List<QueryMethod> queryMethods)
+  {
     return queryMethods
         .map((method) => QueryMethodWriter(method).write())
         .toList();

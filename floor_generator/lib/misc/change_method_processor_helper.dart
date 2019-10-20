@@ -11,34 +11,35 @@ class ChangeMethodProcessorHelper {
   final List<Entity> _entities;
 
   const ChangeMethodProcessorHelper(
-    final MethodElement methodElement,
-    final List<Entity> entities,
-  )   : assert(methodElement != null),
-        assert(entities != null),
-        _methodElement = methodElement,
-        _entities = entities;
+                                      final MethodElement methodElement,
+                                      final List<Entity> entities,
+                                    )   : assert(methodElement != null),
+                                          assert(entities != null),
+                                          _methodElement = methodElement,
+                                          _entities = entities;
 
   @nonNull
   ParameterElement getParameterElement() {
     final parameters = _methodElement.parameters;
-    if (parameters.isEmpty) {
+    if (parameters.isEmpty)
+    {
       throw InvalidGenerationSourceError(
-        'There is no parameter supplied for this method. Please add one.',
-        element: _methodElement,
-      );
-    } else if (parameters.length > 1) {
+                                          'There is no parameter supplied for this method. Please add one.',
+                                          element: _methodElement,
+                                        );
+    } else if (parameters.length > 1)
+    {
       throw InvalidGenerationSourceError(
-        'Only one parameter is allowed on this.',
-        element: _methodElement,
-      );
+                                          'Only one parameter is allowed on this.',
+                                          element: _methodElement,
+                                        );
     }
     return parameters.first;
   }
 
   @nonNull
-  DartType getFlattenedParameterType(
-    @nonNull final ParameterElement parameterElement,
-  ) {
+  DartType getFlattenedParameterType( @nonNull final ParameterElement parameterElement, )
+  {
     final changesMultipleItems = isList(parameterElement.type);
 
     return changesMultipleItems
@@ -47,7 +48,8 @@ class ChangeMethodProcessorHelper {
   }
 
   @nonNull
-  Entity getEntity(@nonNull final DartType flattenedParameterType) {
+  Entity getEntity(@nonNull final DartType flattenedParameterType)
+  {
     return _entities.firstWhere(
         (entity) =>
             entity.classElement.displayName ==

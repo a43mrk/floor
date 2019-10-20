@@ -7,8 +7,8 @@ class ChangeMethodWriterHelper {
   final ChangeMethod _changeMethod;
 
   ChangeMethodWriterHelper(final ChangeMethod changeMethod)
-      : assert(changeMethod != null),
-        _changeMethod = changeMethod;
+                                                            : assert(changeMethod != null),
+                                                              _changeMethod = changeMethod;
 
   /// Adds the change method signature to the [MethodBuilder].
   void addChangeMethodSignature(final MethodBuilder methodBuilder) {
@@ -28,7 +28,7 @@ class ChangeMethodWriterHelper {
     final parameter = _changeMethod.parameterElement;
 
     return Parameter((builder) => builder
-      ..name = parameter.name
-      ..type = refer(parameter.type.displayName));
+                                  ..name = parameter.name
+                                  ..type = refer(parameter.type.displayName));
   }
 }

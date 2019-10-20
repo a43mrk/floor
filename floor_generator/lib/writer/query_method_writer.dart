@@ -11,15 +11,17 @@ class QueryMethodWriter implements Writer {
   final QueryMethod _queryMethod;
 
   QueryMethodWriter(final QueryMethod queryMethod)
-      : assert(queryMethod != null),
-        _queryMethod = queryMethod;
+                                                  : assert(queryMethod != null),
+                                                    _queryMethod = queryMethod;
 
   @override
-  Method write() {
+  Method write()
+  {
     return _generateQueryMethod();
   }
 
-  Method _generateQueryMethod() {
+  Method _generateQueryMethod()
+  {
     final builder = MethodBuilder()
       ..annotations.add(overrideAnnotationExpression)
       ..returns = refer(_queryMethod.rawReturnType.displayName)
@@ -34,7 +36,8 @@ class QueryMethodWriter implements Writer {
     return builder.build();
   }
 
-  List<Parameter> _generateMethodParameters() {
+  List<Parameter> _generateMethodParameters()
+  {
     return _queryMethod.parameters.map((parameter) {
       if (!isSupportedType(parameter.type)) {
         InvalidGenerationSourceError(
@@ -49,7 +52,8 @@ class QueryMethodWriter implements Writer {
     }).toList();
   }
 
-  String _generateMethodBody() {
+  String _generateMethodBody()
+  {
     final _methodBody = StringBuffer();
 
     final valueLists = _generateInClauseValueLists();
@@ -74,7 +78,8 @@ class QueryMethodWriter implements Writer {
   }
 
   @nonNull
-  List<String> _generateInClauseValueLists() {
+  List<String> _generateInClauseValueLists()
+  {
     var index = 0;
     return _queryMethod.parameters
         .map((parameter) {
@@ -90,7 +95,8 @@ class QueryMethodWriter implements Writer {
   }
 
   @nonNull
-  List<String> _generateParameters() {
+  List<String> _generateParameters()
+  {
     return _queryMethod.parameters
         .map((parameter) {
           if (!isList(parameter.type)) {
@@ -104,13 +110,15 @@ class QueryMethodWriter implements Writer {
   }
 
   @nullable
-  String _generateArguments() {
+  String _generateArguments()
+  {
     final parameters = _generateParameters();
     return parameters.isNotEmpty ? '<dynamic>[${parameters.join(', ')}]' : null;
   }
 
   @nonNull
-  String _generateNoReturnQuery(@nullable final String arguments) {
+  String _generateNoReturnQuery(@nullable final String arguments)
+  {
     final parameters = StringBuffer()..write("'${_queryMethod.query}'");
     if (arguments != null) parameters.write(', arguments: $arguments');
     return 'await _queryAdapter.queryNoReturn($parameters);';
@@ -118,14 +126,15 @@ class QueryMethodWriter implements Writer {
 
   @nonNull
   String _generateQuery(
-    @nullable final String arguments,
-    @nonNull final String mapper,
-  ) {
+                          @nullable final String arguments,
+                          @nonNull final String mapper,
+                        ) {
     final parameters = StringBuffer()..write("'${_queryMethod.query}', ");
     if (arguments != null) parameters.write('arguments: $arguments, ');
     parameters.write('mapper: $mapper');
 
-    if (_queryMethod.returnsList) {
+    if (_queryMethod.returnsList)
+    {
       return 'return _queryAdapter.queryList($parameters);';
     } else {
       return 'return _queryAdapter.query($parameters);';

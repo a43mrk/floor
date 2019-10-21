@@ -240,7 +240,11 @@ class EntityProcessor extends Processor<Entity> {
       // for(var columnName in columnNames){
       for(var columnName in constructorParameters){
       // final parameterValue = "${columnNames[i]}: row['${columnNames[i]}']";
-      final parameterValue = "${columnName.displayName}: row['${columnName.displayName}']";
+
+
+      final parameterValue = isList(columnName.type)
+                             ? "${columnName.displayName}: jsonDecode(row['${columnName.displayName}'])"
+                             : "${columnName.displayName}: row['${columnName.displayName}']";
       // final constructorParameter = constructorParameters[i];
       // final constructorParameter = _classElement.constructors.first.parameters.firstWhere((test){
       //   return test.displayName == columnName;
@@ -291,9 +295,9 @@ class EntityProcessor extends Processor<Entity> {
 
   @nullable
   String _castParameterValue(
-    final DartType parameterType,
-    final String parameterValue,
-  ) {
+                              final DartType parameterType,
+                              final String parameterValue,
+                            ) {
     if (isBool(parameterType)) {
       // return '($parameterValue as int) != 0'; // maps int to bool
       return '$parameterValue != 0'; // maps int to bool
@@ -304,8 +308,12 @@ class EntityProcessor extends Processor<Entity> {
     } else if (isDouble(parameterType)) {
       return '$parameterValue as double';
       // here is where you declare new types from constructor to be supported
-    } else if (isParameterizedList(parameterType)) {
-      return '$parameterValue as List<dynamic>';
+    } else if (isList(parameterType)) {
+    //   // wrong output: jsonDecode( actions: row['actions'] )
+    //   // TODO: actions: jsonDecode( row['actions'] )
+    //   return 'jsonDecode( $parameterValue )';
+    //   // return '$parameterValue as List<dynamic>';
+    return '$parameterValue';
     } else {
       return null;
     }

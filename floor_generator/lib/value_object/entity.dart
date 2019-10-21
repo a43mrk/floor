@@ -70,27 +70,32 @@ class Entity {
     return '<String, dynamic>{${keyValueList.join(', ')}}';
   }
 
+
+  // ================= cast before construct and pass to database ===========================
   @nonNull
   String _getAttributeValue(final FieldElement fieldElement) {
     final parameterName = fieldElement.displayName;
     return isBool(fieldElement.type)
-        ? 'item.$parameterName ? 1 : 0'
-        : 'item.$parameterName';
+                                    ? 'item.$parameterName ? 1 : 0'
+                                    : isList(fieldElement.type) // && isParameterizedList(fieldElement.type)
+                                    ? 'jsonEncode(item.$parameterName)'
+                                    : 'item.$parameterName';
   }
+  // ================= end cast before construct and pass to database ===========================
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Entity &&
-          runtimeType == other.runtimeType &&
-          classElement == other.classElement &&
-          name == other.name &&
-          const ListEquality<Field>().equals(fields, other.fields) &&
-          primaryKey == other.primaryKey &&
-          const ListEquality<ForeignKey>()
-              .equals(foreignKeys, other.foreignKeys) &&
-          const ListEquality<Index>().equals(indices, other.indices) &&
-          constructor == other.constructor;
+                                    identical(this, other) ||
+                                    other is Entity &&
+                                    runtimeType == other.runtimeType &&
+                                    classElement == other.classElement &&
+                                    name == other.name &&
+                                    const ListEquality<Field>().equals(fields, other.fields) &&
+                                    primaryKey == other.primaryKey &&
+                                    const ListEquality<ForeignKey>()
+                                        .equals(foreignKeys, other.foreignKeys) &&
+                                    const ListEquality<Index>().equals(indices, other.indices) &&
+                                    constructor == other.constructor;
 
   @override
   int get hashCode =>

@@ -98,7 +98,7 @@ class DaoWriter extends Writer {
     //   );
     // }
 
-
+    // ======================== DAO constructor =====================================
     final insertionMethods = dao.insertionMethods;
     if (insertionMethods.isNotEmpty) {
       final entities = insertionMethods.map((method) => method.entity).toSet();
@@ -109,9 +109,9 @@ class DaoWriter extends Writer {
         final type = refer('InsertionAdapter<$entityClassName>');
 
         final field = Field((builder) => builder
-          ..name = fieldName
-          ..type = type
-          ..modifier = FieldModifier.final$);
+                                        ..name = fieldName
+                                        ..type = type
+                                        ..modifier = FieldModifier.final$);
 
         classBuilder..fields.add(field);
 
@@ -126,6 +126,7 @@ class DaoWriter extends Writer {
               "$fieldName = InsertionAdapter(database, '${entity.name}', $valueMapper${requiresChangeListener ? ', changeListener' : ''})"));
       }
     }
+    // ======================== end DAO constructor =====================================
 
     final updateMethods = dao.updateMethods;
     if (updateMethods.isNotEmpty) {

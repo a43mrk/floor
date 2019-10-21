@@ -47,6 +47,7 @@ class ChangeMethodProcessorHelper {
         : parameterElement.type;
   }
 
+  // check invalid overwriting by name?
   @nonNull
   Entity getEntity(@nonNull final DartType flattenedParameterType)
   {

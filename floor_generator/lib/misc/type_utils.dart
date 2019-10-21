@@ -32,6 +32,11 @@ bool isList(final DartType type) {
 }
 
 @nonNull
+bool isDateTime(final DartType type) {
+  return type.name == 'DateTime' && type.element.library.isDartCore;
+}
+
+@nonNull
 bool isParameterizedList(final DartType type) {
   // print("checking $type...");
   // return _parameterizedTypeChecker.isExactlyType(type);

@@ -63,8 +63,8 @@ class EntityProcessorError {
   }
 
   InvalidGenerationSourceError parameterTypeNotSupported(
-    final ParameterElement parameterElement,
-  ) {
+                  final ParameterElement parameterElement,
+                ) {
     return InvalidGenerationSourceError(
       'The given constrcutor parameter type is not supported.',
       todo: 'Make sure to only use bool, String, int and double types.',

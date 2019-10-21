@@ -314,6 +314,8 @@ class EntityProcessor extends Processor<Entity> {
     //   return 'jsonDecode( $parameterValue )';
     //   // return '$parameterValue as List<dynamic>';
     return '$parameterValue';
+    } else if (isDateTime(parameterType)) {
+      return '$parameterValue as int';
     } else {
       return null;
     }
